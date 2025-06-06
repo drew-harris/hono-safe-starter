@@ -1,5 +1,13 @@
 services:
-  jep:
-    build: .
+  postgres: 
+    image: "postgres"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
-      - "3000:3000"
+      - "5432:5432"
+
+volumes:
+  pgdata: 

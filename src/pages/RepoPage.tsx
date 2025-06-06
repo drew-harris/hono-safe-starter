@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useLoaderData } from "react-router";
 import { client } from "../fetch";
 
 export const RepoPage = () => {
@@ -8,7 +7,9 @@ export const RepoPage = () => {
     queryFn: async () => {
       return client.api.github
         .$get({
-          query: { user: "drew" },
+          query: {
+            user: "Drew",
+          },
         })
         .then((res) => res.json());
     },

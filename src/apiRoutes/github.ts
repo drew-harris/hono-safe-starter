@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { err, okAsync } from "neverthrow";
+import { okAsync } from "neverthrow";
 import z from "zod";
 import { safeRoute } from "../safeRoute";
 
