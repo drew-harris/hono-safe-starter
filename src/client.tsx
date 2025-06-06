@@ -15,6 +15,8 @@ const client = hc<ApiType>("http://localhost:8787/", {
   },
 });
 
+const result = await client.api.github.$get();
+
 const router = createBrowserRouter([
   {
     path: "/",
