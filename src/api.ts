@@ -1,16 +1,16 @@
-import { Hono, type Context, type Input, type ValidationTargets } from "hono";
+import { Hono, type Context } from "hono";
 import { githubRouter } from "./apiRoutes/github";
 import { ResultAsync } from "neverthrow";
 import type { JSONValue } from "hono/utils/types";
 import type { ZodSchema, z } from "zod";
 
 export type ApiType = typeof api;
-type InputType = "json";
 
 export const safeRoute = <
   T extends JSONValue,
   M extends string,
   Z extends ZodSchema,
+  W extends string = "json",
 >(
   handler: (
     c: Context<
@@ -18,16 +18,16 @@ export const safeRoute = <
       M,
       {
         out: {
-          json: z.infer<Z>;
+          [type in W]: z.infer<Z>;
         };
         in: {
-          json: z.infer<Z>;
+          [type in W]: z.infer<Z>;
         };
       }
     >,
   ) => ResultAsync<T, Error>,
   _schema?: Z,
-  _inputMethod?: keyof ValidationTargets,
+  _inputMethod?: W,
 ) => {
   return async (
     c: Context<
@@ -35,10 +35,10 @@ export const safeRoute = <
       M,
       {
         out: {
-          json: z.infer<Z>;
+          [type in W]: z.infer<Z>;
         };
         in: {
-          json: z.infer<Z>;
+          [type in W]: z.infer<Z>;
         };
       }
     >,
