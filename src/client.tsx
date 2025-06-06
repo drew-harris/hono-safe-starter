@@ -21,12 +21,6 @@ const result = await client.api.github.$post({
   },
 });
 
-const result2 = await client.api.github.$post({
-  json: {
-    messageUser: "lsd",
-  },
-});
-
 const router = createBrowserRouter([
   {
     path: "/",

@@ -1,18 +1,17 @@
 import { Hono } from "hono";
-import { safeRoute } from "../api";
-import { ok, okAsync } from "neverthrow";
-import { zValidator } from "@hono/zod-validator";
+import { err, okAsync } from "neverthrow";
 import z from "zod";
+import { safeRoute } from "../safeRoute";
 
 const testSchema = z.object({
   messageUser: z.string(),
 });
 
-export const githubRouter = new Hono().post(
+export const githubRouter = new Hono().get(
   "/",
-  zValidator("json", testSchema),
   safeRoute((c) => {
-    console.log(c.req.valid("json").messageUser);
-    return okAsync({ message: "Hello" });
-  }, testSchema),
+    return okAsync({ message: "Hello" }).mapErr(() => {
+      return new Error("Failed to get message");
+    });
+  }),
 );
