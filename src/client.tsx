@@ -2,29 +2,21 @@ import "./styles.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router";
-import { App } from "./App";
 import { RepoPage } from "./pages/RepoPage";
-import { hc } from "hono/client";
-import type { ApiType } from "./api";
 
-const queryClient = new QueryClient();
-
-const client = hc<ApiType>("http://localhost:8787/", {
-  fetch(input, requestInit, _) {
-    return fetch(input, { ...requestInit });
-  },
-});
-
-const result = await client.api.github.$post({
-  json: {
-    messageUser: "lsd",
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Speed up development
+      retry: false,
+    },
   },
 });
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <RepoPage />,
   },
   {
     path: "/:org/:repo",

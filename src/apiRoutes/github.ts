@@ -4,14 +4,16 @@ import z from "zod";
 import { safeRoute } from "../safeRoute";
 
 const testSchema = z.object({
-  messageUser: z.string(),
+  user: z.string(),
 });
 
 export const githubRouter = new Hono().get(
   "/",
-  safeRoute((c) => {
-    return okAsync({ message: "Hello" }).mapErr(() => {
-      return new Error("Failed to get message");
-    });
-  }),
+  safeRoute(
+    (_, input) => {
+      return okAsync({ message: "Hello " + input.user });
+    },
+    testSchema,
+    "query",
+  ),
 );

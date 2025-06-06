@@ -6,8 +6,9 @@ export type ApiType = typeof api;
 export const api = new Hono()
   .basePath("/api")
   .onError((err, c) => {
+    console.error(err);
     if (err instanceof Error) {
-      return c.json({ error: err.message });
+      return c.json({ error: err.message }, 500);
     } else {
       return c.json({ error: "Unknown error" }, 500);
     }
