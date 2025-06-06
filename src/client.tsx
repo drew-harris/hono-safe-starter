@@ -15,7 +15,15 @@ const client = hc<ApiType>("http://localhost:8787/", {
   },
 });
 
-const result = await client.api.github.$get();
+const result = await client.api.github.$post({
+  json: {
+    messageUser: "lsd",
+  },
+});
+
+const result2 = await client.api.github.$post({});
+
+result2.json().then((json) => console.log(json));
 
 const router = createBrowserRouter([
   {
